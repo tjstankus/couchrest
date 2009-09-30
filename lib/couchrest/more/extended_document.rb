@@ -181,7 +181,7 @@ module CouchRest
       caught = catch(:halt)  do
         _run_create_callbacks do
             _run_save_callbacks do
-              create_without_callbacks(bulk)
+              save_without_callbacks(bulk)
           end
         end
       end
@@ -220,17 +220,7 @@ module CouchRest
     # Trigger the callbacks (before, after, around)
     # and save the document
     def save(bulk = false)
-      caught = catch(:halt)  do
-        if self.new?
-          _run_create_callbacks do
-            _run_save_callbacks do
-              save_without_callbacks(bulk)
-            end
-          end
-        else
-          update(bulk)
-        end
-      end
+      self.new? ? create(bulk) : update(bulk)
     end
     
     # Overridden to set the unique ID.

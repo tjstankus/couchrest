@@ -659,6 +659,11 @@ describe "ExtendedDocument" do
         @doc.create.should_not be_nil
         @doc.run_before_save.should be_true
       end
+      it "should run the after save filter when creating" do
+        @doc.run_after_save.should be_nil
+        @doc.create.should_not be_nil
+        @doc.run_after_save.should be_true
+      end
       it "should run the before create filter" do
         @doc.run_before_create.should be_nil
         @doc.create.should_not be_nil
