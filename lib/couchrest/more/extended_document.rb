@@ -222,8 +222,10 @@ module CouchRest
     def save(bulk = false)
       caught = catch(:halt)  do
         if self.new?
-          _run_save_callbacks do
-            save_without_callbacks(bulk)
+          _run_create_callbacks do
+            _run_save_callbacks do
+              save_without_callbacks(bulk)
+            end
           end
         else
           update(bulk)
